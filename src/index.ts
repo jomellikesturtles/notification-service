@@ -36,10 +36,10 @@ export interface MessageBody {
   recipient: string,
   body: string,
   subject: string,
-  otp: string,
+  context: any
 }
 
-enum TYPE {
+export enum TYPE {
   SMS = 'sms',
   EMAIL = 'email',
   SLACK = 'slack',

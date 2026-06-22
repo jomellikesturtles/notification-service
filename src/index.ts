@@ -3,8 +3,10 @@ import express, { Request, Response } from 'express';
 import routes from './routes.js';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-// import nodemailer from 'nodemailer';
-// import { hbs } from 'nodemailer-express-handlebars';
+import dotenv from 'dotenv';
+import { startKafkaConsumer } from './kafka.consumer.js';
+
+dotenv.config();
 
 const app = express();
 // const PORT = process.env.PORT || 3500;
@@ -26,6 +28,7 @@ app.use(routes);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
+  startKafkaConsumer().catch(err => console.error('Kafka consumer startup failed:', err));
 });
 
 

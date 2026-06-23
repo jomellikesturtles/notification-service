@@ -1,4 +1,4 @@
-name: Node.js Express CI/CD Pipeline
+name: Merge and image push
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   # Job 1: Runs on PRs and on direct merges to validate the codebase
-  test-and-validate:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -24,20 +24,6 @@ jobs:
 
       - name: Test build
         run: npm run build
-
-      # - name: Run Linter (Optional but Recommended)
-      #   run: npm run lint --if-present
-
-      # - name: Run Tests
-      #   run: npm test
-
-  # Job 2: Runs ONLY when a Pull Request is successfully merged into main/develop
-  deploy:
-    needs: test-and-validate
-  #   # Condition: Triggered by a push event (which occurs when a PR is merged)
-  #   if: github.event_name == 'push'
-    runs-on: ubuntu-latest
-    steps:
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3

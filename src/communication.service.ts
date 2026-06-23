@@ -2,12 +2,15 @@ import { MessageBody, TYPE } from "./index.js";
 import * as nodemailer from 'nodemailer';
 import hbs from 'nodemailer-express-handlebars';
 import path from "path";
+import { config } from "./config.js";
 
 const SMTP_SERVER = "smtp.gmail.com";
 const PORT = 587;  // For starttls
-const EMAIL = "jommel.s.2020@gmail.com";
-const PASSWORD = "vpcj atll aqrk czif";
-const transporter = nodemailer.createTransport({
+
+const EMAIL = config.EMAIL;
+const PASSWORD = config.PASSWORD;
+
+let transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: EMAIL,
@@ -15,7 +18,18 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+transporter.use('compile', hbs({
+  viewEngine: {
+    extname: '.hbs',
+    partialsDir: path.resolve('./emails'),
+    defaultLayout: false,
+  },
+  viewPath: path.resolve('./emails'),
+  extName: '.hbs',
+}));
+
 export const sendCommunication = async (message: MessageBody, template: string = 'null') => {
+  console.debug("message.type : ", message.type );
   if (message.type == TYPE.EMAIL) {
     sendEmail(message, template);
   }
@@ -25,18 +39,10 @@ export const sendCommunication = async (message: MessageBody, template: string =
 
 const sendSMS = async (message: MessageBody) => {
   console.log("Sending SMS to ", message.recipient);
-
 };
+
 const sendEmail = async (message: MessageBody, template: string) => {
-  transporter.use('compile', hbs({
-    viewEngine: {
-      extname: '.hbs',
-      partialsDir: path.resolve('./emails'),
-      defaultLayout: false,
-    },
-    viewPath: path.resolve('./emails'),
-    extName: '.hbs',
-  }));
+  console.debug("Sending email with ", message);
   const mailOptions = {
     from: EMAIL,
     to: message.recipient,
@@ -44,18 +50,19 @@ const sendEmail = async (message: MessageBody, template: string) => {
     template: template,
     context: message.context
   };
+  console.debug("Sending email to ", message.recipient);
+  console.debug("Sending mailOptions to ", mailOptions);
   transporter.sendMail(mailOptions, (err, info) => {
     if (err) console.error(err);
     else console.log('Email sent ', info.response);
   });
-  console.log("Sending email to ", message.recipient);
-
 };
 
 export const TEMPLATE2 = {
   welcome: 'Welcome to App',
   otp: 'App OTP',
 };
+
 const TEMPLATE: Record<string, string> = {
   welcome: "Welcome to App",
   otp: "App OTP"

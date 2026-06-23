@@ -2,7 +2,7 @@ import { Kafka } from 'kafkajs';
 import { sendCommunication } from './communication.service.js';
 import { MessageBody, TYPE } from './index.js';
 
-const kafkaBroker = process.env.KAFKA_BROKER || 'localhost:9093';
+const kafkaBroker = 'localhost:9093';
 
 const kafka = new Kafka({
   clientId: 'notification-service',
@@ -33,6 +33,7 @@ export const handleMessage = async (topic: string, value: string | undefined) =>
         ...payload.context
       }
     };
+    console.log('messageBody: ' ,messageBody)
 
     await sendCommunication(messageBody, 'welcome');
   } catch (err) {

@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "rm -rf dist && tsc",
-    "start": "npm run build && node dist/index.js",
-    "dev": "nodemon src/index.ts",
+    "start": "npm run build && node dist/index.js --env-file=.env ",
+    "dev": "nodemon src/index.ts --env-file=.env ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -20,7 +20,7 @@
     "express": "^5.2.1",
     "handlebars": "^4.7.9",
     "kafkajs": "^2.2.4",
-    "nodemailer": "^8.0.5",
+    "nodemailer": "^8.0.11",
     "nodemailer-express-handlebars": "^7.0.0"
   },
   "devDependencies": {

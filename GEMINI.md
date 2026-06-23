@@ -36,8 +36,9 @@ Send critical and promotional notifications, including:
 - **Linter & Style:** Adhere to the mdb platform's standard for TypeScript (Constructor Injection where applicable, explicit typing).
 
 ### Testing Requirements
-- New features or bug fixes MUST include corresponding unit or integration tests.
-- Ensure the service remains stateless to support scaling.
+- SKIP unit and integration Tests for now to save tokens
+<!-- - New features or bug fixes MUST include corresponding unit or integration tests.
+- Ensure the service remains stateless to support scaling. -->
 
 ---
 

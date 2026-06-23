@@ -57,3 +57,7 @@ ISC
 
 
 *branching name: communicators (marconi, morse, bell, tesla, hertz)*
+
+docker build -t notification-service . 
+docker tag notification-service:latest 145099743252137218288881570337/notification-service:latest  
+docker push 145099743252137218288881570337/notification-service:latest         

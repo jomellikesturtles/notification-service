@@ -1,8 +1,9 @@
 import { Kafka } from 'kafkajs';
 import { sendCommunication } from './communication.service.js';
 import { MessageBody, TYPE } from './index.js';
+import { config } from "./config.js";
 
-const kafkaBroker = 'localhost:9093';
+const kafkaBroker = config.KAFKA_BROKER || 'localhost:9093';
 
 const kafka = new Kafka({
   clientId: 'notification-service',
@@ -33,7 +34,7 @@ export const handleMessage = async (topic: string, value: string | undefined) =>
         ...payload.context
       }
     };
-    console.log('messageBody: ' ,messageBody)
+    console.log('messageBody: ', messageBody);
 
     await sendCommunication(messageBody, 'welcome');
   } catch (err) {
@@ -45,7 +46,7 @@ export const startKafkaConsumer = async () => {
   try {
     await consumer.connect();
     console.log(`Kafka Consumer connected to broker: ${kafkaBroker}`);
-    
+
     await consumer.subscribe({ topic: 'user.account.created', fromBeginning: true });
     console.log('Kafka Consumer subscribed to topic: user.account.created');
 

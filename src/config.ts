@@ -9,4 +9,5 @@ if (!process.env.DATABASE_URL) {
 export const config = {
   EMAIL: process.env.EMAIL,
   PASSWORD: process.env.PASSWORD,
+  KAFKA_BROKER: process.env.KAFKA_BROKER
 };
